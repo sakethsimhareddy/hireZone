@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Sign in to access your account">
+  <meta name="generator" content="Hugo 0.122.0">
+  <title>{% block title %}HireZone{% endblock %}</title>
+
+  {% load bootstrap5 static %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+  <style>
+    body {
+        /* Add your background styles here */
+        background: url("{% static 'img/loginBackground.webp' %}") no-repeat center center fixed;
+        /* Adjust background properties as needed */
+        background-size: cover;
+        /* Additional styles */
+        /* Example: */
+        /* color: #ffffff; */
+         font-family: Arial, sans-serif; 
+    }
+    
+    .blur-background {
+        backdrop-filter: blur(4px); /* Adjust blur amount as needed */
+        background-color: rgba(255, 255, 255, 0.5); /* Adjust background color and opacity */
+        padding: 20px; /* Optional: Add padding for spacing */
+        /* Add more styles as needed */
+      }
+      .blur-background2 {
+        backdrop-filter: blur(6px); /* Adjust blur amount as needed */
+        background-color: rgba(255, 255, 255, 0.5); /* Adjust background color and opacity */
+        padding: 20px; /* Optional: Add padding for spacing */
+        /* Add more styles as needed */
+      }
+  </style>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="d-flex align-items-center bg-light py-5">
+  <div class="container blur-background">
+    <div class="row align-items-center g-lg-5 py-5">
+      <div class="col-lg-7 text-center text-lg-start">
+        <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">HireZone</h1>
+        <h3 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Where Skills Meet Opportunity</h3>
+
+        <p class="col-lg-10 fs-4"> Our platform prioritizes local connections, ensuring you swiftly discover reliable professionals across diverse fields. With intuitive job posting, advanced search options, and robust verification processes, we streamline your hiring experience.Elevate your local hiring journey with efficiency, reliability, and satisfaction.<p>
+
+        
+      </div>
+      <div class="col-md-10 mx-auto col-lg-5  ">
+        {% if messages %}
+            <div class="mb-3">
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary blur-background2" method="POST"  >
+          {% csrf_token %}
+          <div class="text-center mb-4">
+            <h1 class="h3 mb-3 fw-normal">Login</h1>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInput" placeholder="username" required name='username'>
+            <label for="floatingInput">username</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required name='password'>
+            <label for="floatingPassword">Password</label>
+          </div>
+          <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
+          <hr class="my-4">
+          <small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small>
+          <a href="{% url 'main' %}" class="btn btn-link">Back</a>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+ 

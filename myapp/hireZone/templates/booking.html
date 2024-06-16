@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Page</title>
+    {% load static %}
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url("{% static 'img/loginBackground.webp' %}") no-repeat center center fixed;
+            background-size: cover;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        .note {
+            background-color: #f0f2f5;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .btn-submit {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 24px; /* Increased padding for better touch/click target */
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            font-size: 1rem; /* Adjust font size */
+            font-weight: bold; /* Bold text for emphasis */
+            text-transform: uppercase; /* Uppercase text */
+            letter-spacing: 1px; /* Letter spacing for clarity */
+        }
+
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-submit:focus {
+            outline: none; /* Remove outline on focus for better aesthetics */
+        }
+
+        .fine-print {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Book an Appointment</h1>
+        <form action="#" method="post">
+            {% csrf_token %}
+            <div>
+                <label for="date">Preferred Date:</label>
+                <input type="text" id="date" name="date" required>
+            </div>
+            <div>
+                <label for="time">Preferred Time:</label>
+                <input type="text" id="time" name="time" required>
+            </div>
+            <div>
+                <label for="note">Additional Notes:</label>
+                <textarea id="note" name="note"></textarea>
+            </div>
+            <button type="submit" class="btn-submit">Book Appointment</button>
+        </form>
+        <div class="note">
+            <p><strong>Note:</strong> By continuing, you agree to share your location and phone number with us for the appointment booking process.</p>
+        </div>
+        <div class="fine-print">
+            <p>We respect your privacy. Your data will only be used for scheduling purposes and will not be shared with third parties.</p>
+        </div>
+    </div>
+</body>
+</html>

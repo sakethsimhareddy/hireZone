@@ -1,0 +1,21 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+
+
+}
+.section{
+    width: 100%;
+    background-color: azure;
+    background: url(loginBackground.webp) no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+.container{
+    width: 80%;
+    display: block;
+    margin: auto;
+    padding-top: 100px;
+    
+}

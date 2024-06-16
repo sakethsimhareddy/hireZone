@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    {% load static %}
+    {% load bootstrap_icons %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM+M2gplD4VyAD6C/oPSilRPyZos9s6Z09cfl7u" crossorigin="anonymous" />
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url("{% static 'img/loginBackground.webp' %}") no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .nav-link {
+            color: #fff !important;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .list-group-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .list-group-item img {
+            margin-right: 20px;
+            border: 2px solid #007bff;
+        }
+
+        .list-group-item h5 {
+            margin: 0;
+        }
+
+        .list-group-item p {
+            margin: 5px 0;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .black {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .blur-background2 {
+            backdrop-filter: blur(2px);
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 20px;
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+            border-radius: 50px;
+            overflow: hidden;
+            padding: 5px;
+            width:20rem
+        }
+
+        .search-input {
+            border: none;
+            width: 300px;
+            font-size: 0.9rem;
+            border-radius: 50px 0 0 50px;
+            padding: 10px 15px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .search-button {
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            border: none;
+            background: none;
+            border-radius: 0 50px 50px 0;
+        }
+
+        .search-button i {
+            color: #007bff;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="py-3 mb-3 border-bottom black">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <nav class="nav">
+                <a class="nav-link" href="{% url 'home' %}">Home</a>
+                <a class="nav-link" href="{% url 'about' %}">Contact Us</a>
+                <a class="nav-link" href="{% url 'about' %}">">About Us</a>
+            </nav>
+            
+            <form id="searchForm" class="search-form" action="{% url 'search' %}" method="get">
+                <input type="text" name="query" class="form-control search-input" placeholder="Search for skills..." value="{{ request.GET.query }}">
+                <input type="hidden" name="latitude" id="latitude">
+                <input type="hidden" name="longitude" id="longitude">
+                <button type="submit" class="search-button">{% bs_icon 'search' %}</button>
+            </form>
+            <div class="dropdown">
+                <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                    {% if user.profile.profile_photo %}
+                        <img src="{{ user.profile.profile_photo.url }}" alt="{{ user.username }}'s profile photo" class="rounded-circle" width="50" height="50">
+                    {% else %}
+                        <img src="{% static 'img/download.png' %}" alt="Default Profile Photo" class="rounded-circle" width="50" height="50">
+                    {% endif %}
+                </a>
+                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                    <li><a class="dropdown-item" href="{% url 'edit_profile' user.id %}">Edit Profile</a></li>
+                    <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div class="container blur-background2 ">
+
+        {% if results %}
+            <ul class="list-group mt-4">
+                {% for result in results %}
+                    <li class="list-group-item">
+                        {% if result.seeker.profile_photo %}
+                            <img src="{{ result.seeker.profile_photo.url }}" alt="{{ result.seeker.user.username }}'s profile photo" class="rounded-circle" width="50" height="50">
+                        {% else %}
+                            <img src="{% static 'img/download.png' %}" alt="Default Profile Photo" class="rounded-circle" width="50" height="50">
+                        {% endif %}
+                        <div>
+                            <h5><a href="{% url 'seeker_detail' result.seeker.id %}">{{ result.seeker.user.username }}</a>, {{ result.seeker.location }}</h5>
+                            <p>Rating: {{ result.seeker.rating }}</p>
+                            <p>Distance: {{ result.distance }} miles</p>
+                        </div>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">No results found.</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="mt-4">No results found.</p>
+        {% endif %}
+    </div>
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"></script>
+    <script>
+
+
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting immediately
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    document.getElementById('latitude').value = position.coords.latitude;
+                    document.getElementById('longitude').value = position.coords.longitude;
+                    event.target.submit(); // Submit the form after setting the location
+                }, function(error) {
+                    console.error('Error getting location: ' + error.message);
+                    event.target.submit(); // Submit the form even if location fails
+                });
+            } else {
+                console.error('Geolocation is not supported by this browser.');
+                event.target.submit(); // Submit the form if geolocation is not supported
+            }
+        });
+    </script>
+</body>
+
+</html>

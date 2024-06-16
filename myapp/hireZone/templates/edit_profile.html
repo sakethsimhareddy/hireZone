@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+      body {
+        background-image: url("{% static 'img/loginBackground.webp' %}");
+      }
+      .blur-background2 {
+        backdrop-filter: blur(6px); /* Adjust blur amount as needed */
+        background-color: rgba(255, 255, 255, 0.5); /* Adjust background color and opacity */
+        padding: 20px; /* Optional: Add padding for spacing */
+        /* Add more styles as needed */
+      }
+    </style>
+</head>
+<body>
+    <!--header section start -->
+    <section class="container blur-background2">
+        <header>Edit Profile</header>
+        <form action="{% url 'edit_profile' user.id %}" method="post" enctype="multipart/form-data" class="form">
+            {% csrf_token %}
+            <div class="input-box">
+                <label>Full Name</label>
+                <input type="text" name="username" placeholder="Enter Full Name" value="{{ user.username }}" required/>
+            </div>
+            <div class="input-box">
+                <label>Email</label>
+                <input type="email" name="email" placeholder="Enter your Email" value="{{ user.email }}" required/>
+            </div>
+            <div class="column">
+                <div class="input-box">
+                    <label>Phone number</label>
+                    <input type="text" name="phone_number" placeholder="Enter phone number" value="{{ seeker_profile.phone_number }}" required/>
+                </div>
+                <div class="input-box">
+                    <label>Skill</label>
+                    <input type="text" name="skill_set" placeholder="Enter Your Skill" value="{{ seeker_profile.skill_set }}" required/>
+                </div>
+            </div>
+            <div class="input-box">
+                <label>Address</label>
+                <input type="text" name="location" placeholder="Enter Address" value="{{ seeker_profile.location }}" required/>
+            </div>
+            <div class="input-box">
+                <label>About Me</label>
+                <textarea name="about_me" placeholder="Tell us about yourself" required>{{ seeker_profile.about_me }}</textarea>
+            </div>
+            
+            <!-- Password fields are typically not editable in an edit profile form -->
+
+            <button type="submit">Update Profile</button>
+            <a href="{% url 'home'  %}" class="btn btn-link">Home</a>
+        </form>
+    </section>
+    <!--header section ending -->
+
+    <script src="{% static 'js.js' %}"></script>
+</body>
+</html>

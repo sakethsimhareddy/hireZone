@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    {% load static %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: url("{% static 'img/loginBackground.webp' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+        }
+
+        .blur-background {
+            backdrop-filter: blur(4px);
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            text-align: center;
+            padding: 20px;
+            margin: 20px;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul li {
+            margin: 0 15px;
+        }
+
+        .navbar ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px;
+        }
+
+        .navbar ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .form-inline {
+            display: flex;
+            align-items: center;
+        }
+
+        .form-control {
+            border-radius: 20px;
+            padding: 10px 15px;
+            width: 200px;
+            margin-right: 10px;
+        }
+
+        .btn-outline-light {
+            border-radius: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+        }
+
+        .btn-outline-light:hover {
+            background-color: #0056b3;
+            color: #fff;
+        }
+
+        .center {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .center h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .center p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .buttons button {
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .buttons .btns {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .buttons .btns:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'registerSeeker' %}">Freelancers</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'registerHire' %}">Post a Job</a></li>
+                <li><a href="{% url 'about' %}">Contact</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+            <div class="navbar-nav ml-auto">
+                <form id="searchForm" class="form-inline my-2 my-lg-0" method="GET" action="{% url 'search' %}">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                    <input type="hidden" name="latitude" id="latitude">
+                    <input type="hidden" name="longitude" id="longitude">
+                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+    <div class="wrapper">
+        
+        <div class="center blur-background">
+            <div class="back d-flex flex-column justify-content-center">
+                <h1>{% if user.is_authenticated %}
+                    <div class="container">
+                        <p class="text-center mt-4">Welcome, {{ user.username }}!</p>
+                    </div>
+                {% endif %}</h1>
+                <p>Work with the best freelance talent from around the world on our secure, flexible and cost-effective platform.</p>
+                <hr class="underline" />
+                <p>
+                    Our platform prioritizes local connections, ensuring you swiftly discover reliable professionals across diverse fields. With intuitive job posting, advanced search options, and robust verification processes, we streamline your hiring experience.Elevate your local hiring journey with efficiency, reliability, and satisfaction.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting immediately
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    document.getElementById('latitude').value = position.coords.latitude;
+                    document.getElementById('longitude').value = position.coords.longitude;
+                    event.target.submit(); // Submit the form after setting the location
+                }, function(error) {
+                    console.error('Error getting location: ' + error.message);
+                    event.target.submit(); // Submit the form even if location fails
+                });
+            } else {
+                console.error('Geolocation is not supported by this browser.');
+                event.target.submit(); // Submit the form if geolocation is not supported
+            }
+        });
+    </script>
+</body>
+</html>
